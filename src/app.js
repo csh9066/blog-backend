@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const logger = require('morgan');
 
 const apiRouter = require('./api');
 const db = require('./models');
@@ -18,6 +19,8 @@ db.sequelize
   .catch((e) => {
     console.error(e);
   });
+
+app.use(logger('dev'));
 
 app.use('/api', apiRouter);
 
