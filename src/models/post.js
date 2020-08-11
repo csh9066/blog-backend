@@ -13,15 +13,19 @@ module.exports = class Post extends Model {
           type: DataTypes.TEXT,
           allowNull: false,
         },
-        // RetweetId
       },
       {
         modelName: 'Post',
         tableName: 'posts',
         charset: 'utf8mb4',
-        collate: 'utf8mb4_general_ci', // 이모티콘 저장
+        collate: 'utf8mb4_general_ci',
         sequelize,
       },
     );
+  }
+  static associate(db) {
+    db.Post.belongsToMany(db.Tag, {
+      through: 'PostTag',
+    });
   }
 };
