@@ -3,6 +3,6 @@ const postsRouter = require('./posts');
 
 const apiRouter = express.Router();
 
-apiRouter.use('/api', postsRouter);
+apiRouter.use('/posts', postsRouter);
 
 module.exports = apiRouter;
