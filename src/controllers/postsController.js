@@ -24,6 +24,7 @@ exports.write = async (req, res, next) => {
     const createdPost = await Post.create({
       title,
       body,
+      UserId: req.user.id,
     });
 
     if (tags) {
