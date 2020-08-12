@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 
 const Post = require('./post');
 const Tag = require('./tag');
+const User = require('./user');
 
 const config = require('../database/config')['development'];
 
@@ -15,6 +16,7 @@ const sequelize = new Sequelize(
 
 db.Post = Post;
 db.Tag = Tag;
+db.User = User;
 
 Object.keys(db).forEach((modelName) => {
   db[modelName].init(sequelize);

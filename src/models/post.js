@@ -27,5 +27,6 @@ module.exports = class Post extends Model {
     db.Post.belongsToMany(db.Tag, {
       through: 'PostTag',
     });
+    db.Post.belongsTo(db.User);
   }
 };
