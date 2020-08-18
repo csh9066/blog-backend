@@ -33,12 +33,15 @@ exports.register = async (req, res, next) => {
     });
   }
 
-  await User.create({
+  const user = await User.create({
     username,
     hashedPassword,
   });
 
-  res.send('crated at');
+  const jsonUser = user.toJSON();
+  delete jsonUser.hashedPassword;
+
+  res.json(jsonUser);
 };
 
 exports.login = async (req, res, next) => {
@@ -46,9 +49,9 @@ exports.login = async (req, res, next) => {
     username: Joi.string().alphanum().min(3).max(20).required(),
     password: Joi.string().required(),
   });
-
   const result = schema.validate(req.body);
   if (result.error) {
+    console.log(result.error);
     return res.status(400).json({
       message: 'bad request',
       error: result.error,
@@ -85,7 +88,13 @@ exports.login = async (req, res, next) => {
   })(req, res, next);
 };
 
-exports.check = async (req, res, next) => {};
+exports.check = async (req, res, next) => {
+  const user = req.user;
+  if (!user) {
+    return res.status(401).json('Unauthoriezed');
+  }
+  return res.json(user);
+};
 
 exports.logout = async (req, res, next) => {
   req.logout();
