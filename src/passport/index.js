@@ -10,7 +10,9 @@ module.exports = () => {
 
   passport.deserializeUser(async (id, done) => {
     try {
-      const user = await User.findByPk(id);
+      const user = await User.findByPk(id, {
+        attributes: { exclude: ['hashedPassword'] },
+      });
       done(null, user);
     } catch (error) {
       console.error(error);

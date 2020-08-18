@@ -11,11 +11,13 @@ module.exports = () => {
             username,
           },
         });
-
+        if (!user) {
+          return done(null, false, { reason: 'not found user' });
+        }
         const isMatchPassword = await user.checkPassword(password);
 
-        if (!user || !isMatchPassword) {
-          return done(null, false, { reason: 'not found user' });
+        if (!isMatchPassword) {
+          return done(null, false, { reason: 'dont matching password' });
         }
 
         return done(null, user);
