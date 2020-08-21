@@ -1,4 +1,4 @@
-const { Post, Tag } = require('../models');
+const { Post, Tag, User } = require('../models');
 const Joi = require('joi');
 
 // eslint-disable-next-line no-unused-vars
@@ -95,12 +95,18 @@ exports.read = async (req, res, next) => {
   const { id } = req.params;
   try {
     const post = await Post.findByPk(id, {
-      include: {
-        model: Tag,
-        through: {
-          attributes: [],
+      include: [
+        {
+          model: Tag,
+          through: {
+            attributes: [],
+          },
         },
-      },
+        {
+          model: User,
+          attributes: ['username'],
+        },
+      ],
     });
     if (!post) {
       return res.status(404).json({ message: 'not found post' });
